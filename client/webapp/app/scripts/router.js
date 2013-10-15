@@ -1,3 +1,0 @@
-Yeoman.Router.map(function () {
-  
-});
