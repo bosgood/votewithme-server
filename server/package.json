@@ -1,7 +1,9 @@
 {
   "name": "voting-server",
   "version": "0.0.1",
-  "dependencies": {},
+  "dependencies": {
+    "mongoskin": "~0.6.0"
+  },
   "devDependencies": {
     "coffee-script": "~1.6.3"
   },
