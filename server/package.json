@@ -1,0 +1,11 @@
+{
+  "name": "voting-server",
+  "version": "0.0.1",
+  "dependencies": {},
+  "devDependencies": {
+    "coffee-script": "~1.6.3"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}

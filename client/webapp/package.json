@@ -1,5 +1,5 @@
 {
-  "name": "voting",
+  "name": "voting-client",
   "version": "0.0.1",
   "dependencies": {},
   "devDependencies": {
