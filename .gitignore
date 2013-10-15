@@ -1,4 +1,4 @@
-npm-debug.log
+*.log
 build
 node_modules
 temp
@@ -8,3 +8,4 @@ dist
 bower_components
 www
 bin
+www/*
