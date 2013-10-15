@@ -1,0 +1,1 @@
+!function(){window.Yeoman=Ember.Application.create()}(),function(){Yeoman.Store=DS.Store.extend({adapter:DS.FixtureAdapter.create()})}(),function(){Yeoman.ApplicationRoute=Ember.Route.extend({model:function(){return["red","yellow","blue","purple"]}})}(),function(){Yeoman.Router.map(function(){})}();
