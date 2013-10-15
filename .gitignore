@@ -6,3 +6,5 @@ dist
 .sass-cache
 .tmp
 bower_components
+www
+bin
