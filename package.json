@@ -5,7 +5,8 @@
     "mongoskin": "~0.6.0",
     "express": "~3.4.0",
     "socket.io": "~0.9.16",
-    "coffee-script": "~1.6.3"
+    "coffee-script": "~1.6.3",
+    "mongoose": "~3.6.20"
   },
   "engines": {
     "node": ">=0.8.0"

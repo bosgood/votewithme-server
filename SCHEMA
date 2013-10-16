@@ -3,7 +3,7 @@ db.users {
   name: String
 }
 
-db.votes {
+db.competitions {
   _id: ObjectId
   owner_id: ObjectId (from db.users)
   open: Boolean
