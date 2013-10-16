@@ -1,27 +1,41 @@
 Q = require 'q'
 
+# API endpoints setup
 init = (app, api) ->
   for [route, method, handler] in endpoints()
     console.log "adding endpoint: #{route}"
     app[method](route, handler(api))
 
+# Enumeration of all endpoints
 endpoints = -> [
   [/user\/\w+/, 'get', listUser]
   ['/user', 'get', listUsers]
-  [/user/, 'post', createUser]
+  ['/user', 'post', createUser]
 ]
 
+# Endpoint handler methods
+
+# Lists one user
 listUser = (api) ->
   (req, res) ->
+    userId =
     console.log 'list user'
 
+# Lists all users
 listUsers = (api) ->
   (req, res) ->
     api.listUsers()
     .then((users) ->
       if users?.length
         console.log "200: found users: ", users
-        res.json(200, users)
+        page =
+          totalCount: users.length
+          count: users.length
+          offset: 0
+          limit: -1
+          objects: users
+
+        res.json(200, page)
       else
         console.log "404: didn't find any users"
         res.json(404, {})
