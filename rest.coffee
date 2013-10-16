@@ -1,3 +1,5 @@
+Q = require 'q'
+
 init = (app, api) ->
   for [route, method, handler] in endpoints()
     console.log "adding endpoint: #{route}"
@@ -19,14 +21,16 @@ listUsers = (api) ->
 
 createUser = (api) ->
   (req, res) ->
-    debugger
     console.log 'create user'
     api.createUser(req.body.name)
     .then((user) ->
-      res.send(201, "created user: #{user}")
+      respBody = "created user: #{user}"
+      res.send(201, respBody)
+      console.log("201: #{respBody}")
     )
     .fail((err) ->
       res.send(500, "couldn't create user. reason: #{err}")
+      console.error(err.stack)
     )
     .done()
 
