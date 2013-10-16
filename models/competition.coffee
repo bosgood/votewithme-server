@@ -9,27 +9,10 @@ competitionSchema = new Schema
   open: Boolean
   type: String  # multi|boolean
   choices: [
+    choice_id: ObjectId
     count: Number
+    name: String
   ]
-
-  # choices: [
-  #   {
-  #     _id: 'true'
-  #     count: Number
-  #   }
-  #   {
-  #     _id: 'false'
-  #     count: Number
-  #   }
-  # ]
-  # // for multi
-  # choices: [
-  #   {
-  #     _id: ObjectId
-  #     count: Number
-  #   }
-  #   ...
-  # ]
 
 Competition = mongoose.model('Competition', competitionSchema)
 module.exports = Competition

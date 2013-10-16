@@ -7,27 +7,39 @@ ObjectID = mongo.ObjectID
 class API
   constructor: (@db) ->
     throw "must provide db connection" unless @db
-    @models = @db.models
+    @User = @db.models.User
+    @Competition = @db.models.Competition
 
   createUser: (name) ->
-    create = Q.nbind(
-      @models.User.create,
-      @models.User
-    )
+    create = Q.nbind(@User.create, @User)
     create name: name
-
-  incrementVote: ->
-
-  decrementVote: (voteId) ->
 
   listUsers: (userId) ->
     if userId?
       query = _id: ObjectID(userId)
 
-    find = Q.nbind(
-      @models.User.find
-      @models.User
-    )
+    find = Q.nbind(@User.find, @User)
     find(query)
+
+  startCompetition: (userId, name) ->
+    create = Q.nbind(@Competition.create, @Competition)
+    create
+      name: name
+      owner_id: userId
+      open: true
+      type: 'multi'
+
+  endCompetition: (competitionId) ->
+    update = Q.nbind(@Competition.update, @Competition)
+    update(
+      { _id: competitionId },
+      { open: false }
+    )
+
+  voteFor: (userId, competitionId, choiceId) ->
+    update = Q.nbind(@Competition.update, @Competition)
+
+  removeVoteFor: (userId, competitionId, choiceId) ->
+
 
 module.exports = API
