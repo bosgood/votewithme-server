@@ -1,4 +1,7 @@
 Q = require 'q'
+mongoose = require 'mongoose'
+mongo = mongoose.mongo
+ObjectID = mongo.ObjectID
 
 # Provides a set of methods for voting data CRUD operations
 class API
@@ -18,10 +21,12 @@ class API
   decrementVote: (voteId) ->
 
   listUsers: (userId) ->
+    if userId?
+      id = ObjectID(userId)
     find = Q.nbind(
       @models.User.find
       @models.User
     )
-    find(userId)
+    find(_id: id)
 
 module.exports = API
