@@ -1,7 +1,6 @@
 # Main web server definition
 
 io = require 'socket.io'
-http = require 'http'
 express = require 'express'
 app = express()
 port = process.env.PORT or 3000
@@ -21,7 +20,6 @@ api = new API(db)
 rest = require './rest'
 rest.init(app, api)
 
-server = http.createServer(app)
-server.listen(port)
+app.listen(port)
 
 console.log "voting server started on port #{port}"
