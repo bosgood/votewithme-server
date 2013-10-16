@@ -1,6 +1,10 @@
 mongoose = require 'mongoose'
 fs = require 'fs'
-models = require './models'
+
+# DB Models
+models = {}
+models.User = require './models/user'
+# models.Competition = require './models/competition'
 
 # Gets a connection to MongoLab or a local MongoDB instance
 connect = ->
@@ -15,4 +19,4 @@ connect = ->
   )
   mongo
 
-module.exports = {connect}
+module.exports = {connect, models}

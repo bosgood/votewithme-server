@@ -1,14 +1,16 @@
 mongoose = require 'mongoose'
+mongo = mongoose.mongo
 
 competitionSchema = new mongoose.Schema
-  owner_id: ObjectId  # fk->db.users
   name: String
+  owner_id: mongo.ObjectId  # fk->db.users
   open: Boolean
   type: String  # multi|boolean
-  choices: [{
+  choices: [
     _id: String
-    count: number
-  }]
+    count: Number
+  ]
+
   ###
   choices: [
     {
