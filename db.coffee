@@ -1,9 +1,16 @@
 mongoskin = require 'mongoskin'
+fs = require 'fs'
 
 connect = ->
   CURRENT_ENV = process.env.ENV or 'local'
-  envContext = JSON.parse(fs.readFileSync("./env/#{CURRENT_ENV}"))
-  mongo = mongoskin.db("mongodb://#{envContext.user}:#{envContext.password}@#{envContext.url}")
+  envContext = JSON.parse(fs.readFileSync("./.environment/#{CURRENT_ENV}"))
+  mongo = mongoskin.db(
+    "#{envContext.user}:#{envContext.password}@#{envContext.url}",
+    {
+      journal: true
+      # database: envContext.database or 'voting'
+    }
+  )
   mongo
 
-module.exports = connect
+module.exports = {connect}
