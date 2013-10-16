@@ -1,0 +1,30 @@
+db.users {
+  _id: ObjectId
+  name: String
+}
+
+db.votes {
+  _id: ObjectId
+  owner_id: ObjectId (from db.users)
+  open: Boolean
+  type: multi|boolean
+  // for boolean
+  choices: [
+    {
+      _id: 'true'
+      count: Number
+    }
+    {
+      _id: 'false'
+      count: Number
+    }
+  ]
+  // for multi
+  choices: [
+    {
+      _id: ObjectId
+      count: Number
+    }
+    ...
+  ]
+}
