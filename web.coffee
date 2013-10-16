@@ -1,3 +1,5 @@
+# Main web server definition
+
 io = require 'socket.io'
 http = require 'http'
 express = require 'express'
