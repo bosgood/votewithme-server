@@ -2,7 +2,6 @@
   "name": "voting-server",
   "version": "0.0.1",
   "dependencies": {
-    "mongoskin": "~0.6.0",
     "express": "~3.4.0",
     "socket.io": "~0.9.16",
     "coffee-script": "~1.6.3",
