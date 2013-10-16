@@ -18,5 +18,10 @@ class API
   decrementVote: (voteId) ->
 
   listUsers: (userId) ->
+    find = Q.nbind(
+      @models.User.find
+      @models.User
+    )
+    find(userId)
 
 module.exports = API
