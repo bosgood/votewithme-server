@@ -4,7 +4,7 @@ fs = require 'fs'
 # DB Models
 models = {}
 models.User = require './models/user'
-# models.Competition = require './models/competition'
+models.Competition = require './models/competition'
 
 # Gets a connection to MongoLab or a local MongoDB instance
 connect = ->
