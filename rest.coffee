@@ -3,13 +3,13 @@ Q = require 'q'
 # API endpoints setup
 init = (app, api) ->
   for [route, method, handler] in endpoints()
-    console.log "adding endpoint: #{route}"
+    console.log "adding endpoint: #{method} #{route}"
     app[method](route, handler(api))
 
 # Enumeration of all endpoints
 endpoints = -> [
   [/user\/\w+/, 'get', listUser]
-  ['/user', 'get', listUsers]
+  ['/users', 'get', listUsers]
   ['/user', 'post', createUser]
 ]
 

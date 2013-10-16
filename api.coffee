@@ -22,11 +22,12 @@ class API
 
   listUsers: (userId) ->
     if userId?
-      id = ObjectID(userId)
+      query = _id: ObjectID(userId)
+
     find = Q.nbind(
       @models.User.find
       @models.User
     )
-    find(_id: id)
+    find(query)
 
 module.exports = API
