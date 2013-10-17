@@ -20,6 +20,10 @@ api = new API(db)
 rest = require './rest'
 rest.init(app, api)
 
+# Initialize realtime events support
+realtime = require './realtime'
+realtime.init()
+
 app.listen(port)
 
 console.log "voting server started on port #{port}"
