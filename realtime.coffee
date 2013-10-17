@@ -14,15 +14,15 @@ events = -> [
 ]
 
 userCreated = (user) ->
-  console.log "[REALTIME]: user created"
+  console.log "[REALTIME] user created"
 
 userDeleted = (user) ->
-  console.log "[REALTIME]: user deleted"
+  console.log "[REALTIME] user deleted"
 
 competitionStarted = (competition) ->
-  console.log "[REALTIME]: competition started"
+  console.log "[REALTIME] competition started"
 
 competitionEnded = (competition) ->
-  console.log "[REALTIME]: competition ended"
+  console.log "[REALTIME] competition ended"
 
 module.exports = {init}
