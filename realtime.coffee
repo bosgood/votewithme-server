@@ -11,18 +11,26 @@ events = -> [
   ['user:deleted', userDeleted]
   ['competition:started', competitionStarted]
   ['competition:ended', competitionEnded]
+  ['vote:cast', voteCast]
+  ['vote:withdrawn', voteWithdrawn]
 ]
 
 userCreated = (user) ->
-  console.log "[REALTIME] user created"
+  console.log "[REALTIME] user created (userId=#{user._id})"
 
 userDeleted = (user) ->
-  console.log "[REALTIME] user deleted"
+  console.log "[REALTIME] user deleted (userId=#{user._id})"
 
 competitionStarted = (competition) ->
-  console.log "[REALTIME] competition started"
+  console.log "[REALTIME] competition started (competitionId=#{competition._id})"
 
 competitionEnded = (competition) ->
-  console.log "[REALTIME] competition ended"
+  console.log "[REALTIME] competition ended (competitionId=#{competition._id})"
+
+voteCast = (vote) ->
+  console.log "[REALTIME] vote cast (userId=#{vote.user_id}, choiceId=#{vote.choice_id})"
+
+voteWithdrawn = (vote) ->
+  console.log "[REALTIME] vote withdrawn (userId=#{vote.user_id}, choiceId=#{vote.choice_id})"
 
 module.exports = {init}
