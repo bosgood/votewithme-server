@@ -6,7 +6,7 @@ api = new API(db)
 
 # Initialize routing for REST API
 rest = require './rest'
-app = rest.init(api, process.env.PORT or 3000)
+rest.init(api, process.env.PORT or 3000)
 
 # Initialize realtime events support
 realtime = require './realtime'
