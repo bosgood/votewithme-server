@@ -47,24 +47,40 @@ class API
   listCompetitionsByMembership: (userId) ->
 
   startCompetition: (userId, name) ->
-    create = Q.nbind(@Competition.create, @Competition)
-    create
+    create = Q.nbind(Competition.create, Competition)
+    create(
       name: name
       owner_id: userId
       open: true
       type: 'multi'
+      participants: [ObjectID(userId)]
+    ).then (competition) ->
+      bus.emit('competition:started', competition)
+      competition
 
   endCompetition: (competitionId) ->
-    update = Q.nbind(@Competition.update, @Competition)
+    update = Q.nbind(Competition.findByIdAndUpdate, Competition)
     update(
       { _id: competitionId },
       { open: false }
-    )
+    ).then (competition) ->
+      bus.emit('competition:ended', competition)
+      competition
 
   voteFor: (userId, competitionId, choiceId) ->
-    update = Q.nbind(@Competition.update, @Competition)
+    update = Q.nbind(@Vote.findByIdAndUpdate, @Vote)
+    query =
+      user_id: userId
+    toUpdate =
+      choice_id: choiceId
 
-  removeVoteFor: (userId, competitionId, choiceId) ->
+    update(query, toUpdate)
+    .then (vote) ->
+      bus.emit('vote:cast', vote)
+      vote
 
+  withdrawVoteFor: (userId, competitionId, choiceId) ->
+
+  # changeVote: (userId, competitionId, choiceId) ->
 
 module.exports = API
