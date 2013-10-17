@@ -26,9 +26,25 @@ class API
   listUsers: (userId) ->
     if userId?
       query = _id: ObjectID(userId)
-
-    find = Q.nbind(@User.find, @User)
+    find = Q.nbind(User.find, User)
     find(query)
+
+  listCompetitionsOfOwner: (ownerId) ->
+    if not userId?
+      errPromise = Q.defer()
+      errPromise.reject(
+        new Error("must provide ownerId to list competitions")
+      )
+      return errPromise
+
+    query = owner_id: ObjectID(userId)
+    find = Q.nbind(Competition.find, Competition)
+    find(query)
+
+  listCompetitions: ->
+    Q.nbind(Competition.find, Competition)()
+
+  listCompetitionsByMembership: (userId) ->
 
   startCompetition: (userId, name) ->
     create = Q.nbind(@Competition.create, @Competition)
