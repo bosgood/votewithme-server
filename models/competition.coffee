@@ -1,3 +1,4 @@
+# Represents a vote, ongoing or finished, between participants
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 mongo = mongoose.mongo
@@ -8,11 +9,6 @@ competitionSchema = new Schema
   owner_id: ObjectId  # fk->db.users
   open: Boolean
   type: String  # multi|boolean
-  choices: [
-    choice_id: ObjectId
-    count: Number
-    name: String
-  ]
 
 Competition = mongoose.model('Competition', competitionSchema)
 module.exports = Competition

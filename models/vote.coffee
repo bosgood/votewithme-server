@@ -1,3 +1,4 @@
+# Represents an option that a user voted for
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 mongo = mongoose.mongo
