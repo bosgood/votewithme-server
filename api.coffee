@@ -2,6 +2,7 @@ Q = require 'q'
 mongoose = require 'mongoose'
 mongo = mongoose.mongo
 ObjectID = mongo.ObjectID
+bus = require './bus'
 
 # Provides a set of methods for voting data CRUD operations
 class API
@@ -12,7 +13,10 @@ class API
 
   createUser: (name) ->
     create = Q.nbind(@User.create, @User)
-    create name: name
+    create(name: name)
+    .then (val) ->
+      bus.emit('user:created', val)
+      val
 
   listUsers: (userId) ->
     if userId?
