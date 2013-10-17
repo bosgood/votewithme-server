@@ -1,10 +1,23 @@
 Q = require 'q'
 
 # API endpoints setup
-init = (app, api) ->
+init = (api, port) ->
+  express = require 'express'
+  app = express()
+
+  app.use(express.logger())
+  app.use(express.compress())
+  app.use(express.json())
+  app.use(express.urlencoded())
+  app.use(express.methodOverride())
+  app.use(app.router)
+
   for [route, method, handler] in endpoints()
-    console.log "adding endpoint: #{method} #{route}"
+    console.log "[HTTP] adding endpoint: #{method} #{route}"
     app[method](route, handler(api))
+
+  app.listen(port)
+  console.log "[HTTP] listening on port #{port}"
 
 # Enumeration of all endpoints
 endpoints = -> [
@@ -26,10 +39,10 @@ listUser = (api) ->
     api.listUsers(userId)
     .then((user) ->
       if not user?.length
-        console.log "404: no user found for userId: #{userId}"
+        console.log "[HTTP] 404: no user found for userId: #{userId}"
         res.json(404, {})
       else
-        console.log "200: found user: #{user[0]}"
+        console.log "[HTTP] 200: found user: #{user[0]}"
         res.json(200, user[0])
     )
     .fail((err) ->
@@ -46,7 +59,7 @@ listUsers = (api) ->
     api.listUsers()
     .then((users) ->
       if users?.length
-        console.log "200: found users: ", users
+        console.log "[HTTP] 200: found users: ", users
         page =
           totalCount: users.length
           count: users.length
@@ -56,12 +69,12 @@ listUsers = (api) ->
 
         res.json(200, page)
       else
-        console.log "404: no users found"
+        console.log "[HTTP] 404: no users found"
         res.json(404, {})
     )
     .fail((err) ->
       res.json(500, {error: "failed to list users. reason: #{err}"})
-      console.error("500: failed to list users")
+      console.error("[HTTP] 500: failed to list users")
       console.error(err.stack)
     )
     .done()
@@ -72,12 +85,12 @@ createUser = (api) ->
     .then((user) ->
       respBody = "created user: #{user}"
       res.json(201, user)
-      console.log("201: #{respBody}")
+      console.log("[HTTP] 201: #{respBody}")
     )
     .fail((err) ->
       errorMsg = "failed to create user. reason: #{err}"
       res.json(500, {error: errorMsg})
-      console.error(errorMsg)
+      console.error("[HTTP] 500: #{errorMsg}")
       console.error(err.stack)
     )
     .done()

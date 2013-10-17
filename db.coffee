@@ -11,9 +11,9 @@ connect = ->
   CURRENT_ENV = process.env.ENV or 'local'
   envContext = JSON.parse(fs.readFileSync("./.environment/#{CURRENT_ENV}"))
 
-  console.log "ENVIRONMENT: #{CURRENT_ENV}"
-  console.log "connecting as user: #{envContext.user}"
-  console.log "database URL: #{envContext.url}"
+  console.log "[DB] ENVIRONMENT: #{CURRENT_ENV}"
+  console.log "[DB] connecting as user: #{envContext.user}"
+  console.log "[DB] database URL: #{envContext.url}"
   mongo = mongoose.connect(
     "#{envContext.user}:#{envContext.password}@#{envContext.url}",
     {
