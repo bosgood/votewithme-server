@@ -3,20 +3,21 @@ mongoose = require 'mongoose'
 mongo = mongoose.mongo
 ObjectID = mongo.ObjectID
 bus = require './bus'
+
 models = require('./db').models
 User = models.User
 Competition = models.Competition
 Vote = models.Vote
+CompetitionMembership = models.CompetitionMembership
+CompetitionCandidate = models.CompetitionCandidate
 
 # Provides a set of methods for voting data CRUD operations
 class API
   constructor: (@db) ->
     throw "must provide db connection" unless @db
-    @User = @db.models.User
-    @Competition = @db.models.Competition
 
   createUser: (name) ->
-    create = Q.nbind(@User.create, @User)
+    create = Q.nbind(User.create, User)
     create(name: name)
     .then (val) ->
       bus.emit('user:created', val)
