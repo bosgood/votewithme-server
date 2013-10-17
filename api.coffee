@@ -3,6 +3,10 @@ mongoose = require 'mongoose'
 mongo = mongoose.mongo
 ObjectID = mongo.ObjectID
 bus = require './bus'
+models = require('./db').models
+User = models.User
+Competition = models.Competition
+Vote = models.Vote
 
 # Provides a set of methods for voting data CRUD operations
 class API
