@@ -42,6 +42,46 @@ class API
     Q(Competition.find().exec())
 
   listCompetitionsByMembership: (userId) ->
+    Q(
+      CompetitionMembership.find(
+        user_id: userId
+      )
+      .exec()
+    )
+    .then((memberships) ->
+      Q(
+        Competition.find().where('_id')
+        .or(memberships.map (membership) ->
+          { _id: membership.competition_id }
+        )
+      )
+    )
+
+  joinCompetition: (userId, competitionId) ->
+    props =
+      user_id: userId
+      competition_id: competitionId
+
+    # "Upsert" membership document
+    Q(
+      CompetitionMembership.findOneAndUpdate(
+        props,
+        props,
+        { upsert: true }
+      ).exec()
+    ).then (competitionMembership) ->
+      bus.emit('competitionMembership:withdrawn', competitionMembership)
+      competitionMembership
+
+  withdrawFromCompetition: (userId, competitionId) ->
+    props =
+      user_id: userId
+      competition_id: competitionId
+    Q(
+      CompetitionMembership.remove(props).exec()
+    ).then ->
+      bus.emit('competitionMembership:joined', props)
+      props
 
   startCompetition: (userId, name) ->
     Q(
