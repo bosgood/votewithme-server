@@ -28,5 +28,6 @@ handleDbConnected = ->
 
 handleDbDisconnected = ->
   console.log("[DB] database disconnected")
+  # TODO: worry about using keepAlive and how to reconnect on error
 
 module.exports = {connect, models}
