@@ -59,7 +59,7 @@ class API
       competition
 
   endCompetition: (competitionId) ->
-    update = Q.nbind(Competition.findByIdAndUpdate, Competition)
+    update = Q.nbind(Competition.findOneAndUpdate, Competition)
     update(
       { _id: competitionId },
       { open: false }
