@@ -17,17 +17,20 @@ class InternalApi
     throw "must provide db connection" unless @db
 
   createUser: (name) ->
+    console.log "[API] create user (name=#{name})"
     Q(User.create(name: name).exec())
     .then (val) ->
       bus.emit('user:created', val)
       val
 
   listUsers: (userId) ->
+    console.log "[API] list users (userId=#{userId})"
     if userId?
       query = _id: ObjectID(userId)
     Q(User.find(query).exec())
 
   listCompetitionsByOwner: (ownerId) ->
+    console.log "[API] list competitions by owner (ownerId=#{ownerId})"
     if not userId?
       errPromise = Q.defer()
       errPromise.reject(
@@ -39,9 +42,11 @@ class InternalApi
     Q(Competition.find(query).exec())
 
   listCompetitions: ->
+    console.log "[API] list all competitions"
     Q(Competition.find().exec())
 
   listCompetitionsByMembership: (userId) ->
+    console.log "[API] list competitions by membership (userId=#{userId})"
     Q(
       CompetitionMembership.find(
         user_id: userId
@@ -58,6 +63,7 @@ class InternalApi
     )
 
   joinCompetition: (userId, competitionId) ->
+    console.log "[API] join competition (userId=#{userId}, competitionId=#{competitionId})"
     props =
       user_id: userId
       competition_id: competitionId
@@ -74,6 +80,7 @@ class InternalApi
       competitionMembership
 
   withdrawFromCompetition: (userId, competitionId) ->
+    console.log "[API] withdraw from competition (userId=#{userId}, competitionId=#{competitionId})"
     props =
       user_id: userId
       competition_id: competitionId
@@ -84,6 +91,7 @@ class InternalApi
       props
 
   startCompetition: (userId, name) ->
+    console.log "[API] start competition (userId=#{userId}, name=#{name})"
     Q(
       Competition.create(
         name: name
@@ -97,6 +105,7 @@ class InternalApi
       competition
 
   endCompetition: (competitionId) ->
+    console.log "[API] end competition (competitionId=#{competitionId})"
     Q(
       Competition.findOneAndUpdate(
         { _id: competitionId },
@@ -107,6 +116,7 @@ class InternalApi
       competition
 
   voteFor: (userId, competitionId, choiceId) ->
+    console.log "[API] vote for (userId=#{userId}, competitionId=#{competitionId}, choiceId=#{choiceId})"
     query =
       user_id: userId
     toUpdate =
@@ -125,6 +135,7 @@ class InternalApi
       vote
 
   withdrawVoteFor: (userId, competitionId, choiceId) ->
+    console.log "[API] withdraw vote for (userId=#{userId}, competitionId=#{competitionId}, choiceId=#{choiceId})"
     props =
       user_id: userId
     Q(
