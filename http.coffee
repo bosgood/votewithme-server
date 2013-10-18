@@ -27,6 +27,9 @@ endpoints = -> [
   ['/competitions/all', 'get', listCompetitions]
   ['/competitions/by-owner', 'get', listCompetitionsByOwner]
   ['/competitions/by-membership', 'get', listCompetitionsByMembership]
+  [/competition\/\w+/withdraw/, 'post', withdrawFromCompetition]
+  [/competition\/\w+/join/, 'post', joinCompetition]
+  [/competition\/\w+/, 'get', listCompetition]
 ]
 
 # Creates an object suitable for use with paged UIs
@@ -101,6 +104,9 @@ createUser = (api) ->
     )
     .done()
 
+listCompetition = (api) ->
+  (req, res) ->
+
 listCompetitions = (api) ->
   (req, res) ->
     api.listCompetitions()
@@ -126,5 +132,10 @@ listCompetitionsByOwner = (api) ->
 listCompetitionsByMembership = (api) ->
   (req, res) ->
 
+joinCompetition = (api) ->
+  (req, res) ->
+
+withdrawFromCompetition = (api) ->
+  (req, res) ->
 
 module.exports = {init}
