@@ -5,11 +5,11 @@ ObjectID = mongo.ObjectID
 bus = require './bus'
 
 models = require('./db').models
-User = models.User
-Competition = models.Competition
-Vote = models.Vote
-CompetitionMembership = models.CompetitionMembership
-CompetitionCandidate = models.CompetitionCandidate
+User = models.user
+Competition = models.competition
+Vote = models.vote
+CompetitionMembership = models.competitionMembership
+CompetitionCandidate = models.competitionCandidate
 
 # Provides a set of methods for voting data CRUD operations
 class API
