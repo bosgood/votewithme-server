@@ -12,13 +12,21 @@ connect = ->
   console.log "[DB] ENVIRONMENT: #{CURRENT_ENV}"
   console.log "[DB] connecting as user: #{envContext.user}"
   console.log "[DB] database URL: #{envContext.url}"
-  mongo = mongoose.connect(
+  connection = mongoose.createConnection(
     "#{envContext.user}:#{envContext.password}@#{envContext.url}",
     {
       journal: true
       # database: envContext.database or 'voting'
     }
   )
-  mongo
+  connection.on('connected', handleDbConnected)
+  connection.on('disconnected', handleDbDisconnected)
+  connection
+
+handleDbConnected = ->
+  console.log("[DB] database connected")
+
+handleDbDisconnected = ->
+  console.log("[DB] database disconnected")
 
 module.exports = {connect, models}
