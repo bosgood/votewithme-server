@@ -80,7 +80,7 @@ class API
     Q(
       CompetitionMembership.remove(props).exec()
     ).then ->
-      bus.emit('competitionMembership:joined', props)
+      bus.emit('competitionMembership:created', props)
       props
 
   startCompetition: (userId, name) ->

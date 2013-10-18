@@ -13,6 +13,8 @@ events = -> [
   ['competition:ended', competitionEnded]
   ['vote:cast', voteCast]
   ['vote:withdrawn', voteWithdrawn]
+  ['competitionMembership:created', competitionMembershipCreated]
+  ['competitionMembership:withdrawn', competitionMembershipWithdrawn]
 ]
 
 userCreated = (user) ->
@@ -32,5 +34,11 @@ voteCast = (vote) ->
 
 voteWithdrawn = (vote) ->
   console.log "[REALTIME] vote withdrawn (userId=#{vote.user_id}, choiceId=#{vote.choice_id})"
+
+competitionMembershipCreated = (competitionMembership) ->
+  console.log "[REALTIME] competition joined (userId=#{competitionMembership.user_id}, competitionId=#{competitionMembership.competition_id})"
+
+competitionMembershipWithdrawn = (competitionMembership) ->
+  console.log "[REALTIME] competition left (userId=#{competitionMembership.user_id}, competitionId=#{competitionMembership.competition_id})"
 
 module.exports = {init}
