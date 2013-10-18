@@ -12,7 +12,7 @@ CompetitionMembership = models.competitionMembership
 CompetitionCandidate = models.competitionCandidate
 
 # Provides a set of methods for voting data CRUD operations
-class API
+class InternalApi
   constructor: (@db) ->
     throw "must provide db connection" unless @db
 
@@ -133,4 +133,4 @@ class API
       bus.emit('vote:withdrawn', props)
       props
 
-module.exports = API
+module.exports = InternalApi

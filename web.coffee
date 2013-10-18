@@ -1,8 +1,8 @@
 # Main web server definition
 db = require('./db').connect()
 db.on 'connected', ->
-  API = require('./api')
-  api = new API(db)
+  InternalApi = require('./api')
+  api = new InternalApi(db)
 
   # Initialize routing for REST API
   http = require './http'
