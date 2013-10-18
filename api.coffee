@@ -112,13 +112,25 @@ class API
     toUpdate =
       choice_id: choiceId
 
-    Q(Vote.findByIdAndUpdate(query, toUpdate).exec())
+    # Only allows one vote per userId/competitionId pair
+    Q(
+      Vote.findOneAndUpdate(
+        query,
+        toUpdate,
+        { upsert: true }
+      ).exec()
+    )
     .then (vote) ->
       bus.emit('vote:cast', vote)
       vote
 
   withdrawVoteFor: (userId, competitionId, choiceId) ->
-
-  # changeVote: (userId, competitionId, choiceId) ->
+    props =
+      user_id: userId
+    Q(
+      Vote.remove(props).exec()
+    ).then ->
+      bus.emit('vote:withdrawn', props)
+      props
 
 module.exports = API
