@@ -24,7 +24,20 @@ endpoints = -> [
   [/user\/\w+/, 'get', listUser]
   ['/users', 'get', listUsers]
   ['/user', 'post', createUser]
+  ['/competitions/all', 'get', listCompetitions]
+  ['/competitions/by-owner', 'get', listCompetitionsByOwner]
+  ['/competitions/by-membership', 'get', listCompetitionsByMembership]
 ]
+
+# Creates an object suitable for use with paged UIs
+createDataPage = (dataArray, offset = 0, limit = -1) ->
+  return {
+    totalCount: dataArray.length
+    count: dataArray.length
+    offset: offset
+    limit: limit
+    objects: dataArray
+  }
 
 # Endpoint handler methods
 
@@ -59,22 +72,16 @@ listUsers = (api) ->
     api.listUsers()
     .then((users) ->
       if users?.length
-        console.log "[HTTP] 200: found users: ", users
-        page =
-          totalCount: users.length
-          count: users.length
-          offset: 0
-          limit: -1
-          objects: users
-
-        res.json(200, page)
+        console.log "[HTTP] 200: found #{users.length} users"
+        res.json(200, createDataPage(users))
       else
         console.log "[HTTP] 404: no users found"
         res.json(404, {})
     )
     .fail((err) ->
-      res.json(500, {error: "failed to list users. reason: #{err}"})
-      console.error("[HTTP] 500: failed to list users")
+      errorMsg = 'failed to list users'
+      res.json(500, {error: "#{errorMsg}. reason: #{err}"})
+      console.error("[HTTP] 500: #{errorMsg}")
       console.error(err.stack)
     )
     .done()
@@ -83,9 +90,8 @@ createUser = (api) ->
   (req, res) ->
     api.createUser(req.body.name)
     .then((user) ->
-      respBody = "created user: #{user}"
       res.json(201, user)
-      console.log("[HTTP] 201: #{respBody}")
+      console.log("[HTTP] 201: created user: #{user}")
     )
     .fail((err) ->
       errorMsg = "failed to create user. reason: #{err}"
@@ -94,5 +100,31 @@ createUser = (api) ->
       console.error(err.stack)
     )
     .done()
+
+listCompetitions = (api) ->
+  (req, res) ->
+    api.listCompetitions()
+    .then((competitions) ->
+      if competitions?.length
+        console.log "[HTTP] 200: found #{competitions.length} competitions"
+        res.json(200, createDataPage(competitions))
+      else
+        console.log "[HTTP] 404: no competitions found"
+        res.json(404, {})
+    )
+    .fail((err) ->
+      errorMsg = "failed to list competitions"
+      res.json(500, {error: "#{errorMsg}. reason: #{err}"})
+      console.error("[HTTP] 500: #{errorMsg}")
+      console.error(err.stack)
+    )
+    .done()
+
+listCompetitionsByOwner = (api) ->
+  (req, res) ->
+
+listCompetitionsByMembership = (api) ->
+  (req, res) ->
+
 
 module.exports = {init}

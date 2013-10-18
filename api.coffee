@@ -29,7 +29,7 @@ class API
     find = Q.nbind(User.find, User)
     find(query)
 
-  listCompetitionsOfOwner: (ownerId) ->
+  listCompetitionsByOwner: (ownerId) ->
     if not userId?
       errPromise = Q.defer()
       errPromise.reject(
