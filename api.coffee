@@ -17,8 +17,7 @@ class API
     throw "must provide db connection" unless @db
 
   createUser: (name) ->
-    create = Q.nbind(User.create, User)
-    create(name: name)
+    Q(User.create(name: name).exec())
     .then (val) ->
       bus.emit('user:created', val)
       val
@@ -26,8 +25,7 @@ class API
   listUsers: (userId) ->
     if userId?
       query = _id: ObjectID(userId)
-    find = Q.nbind(User.find, User)
-    find(query)
+    Q(User.find(query).exec())
 
   listCompetitionsByOwner: (ownerId) ->
     if not userId?
@@ -38,43 +36,43 @@ class API
       return errPromise
 
     query = owner_id: ObjectID(userId)
-    find = Q.nbind(Competition.find, Competition)
-    find(query)
+    Q(Competition.find(query).exec())
 
   listCompetitions: ->
-    Q.nbind(Competition.find, Competition)()
+    Q(Competition.find().exec())
 
   listCompetitionsByMembership: (userId) ->
 
   startCompetition: (userId, name) ->
-    create = Q.nbind(Competition.create, Competition)
-    create(
-      name: name
-      owner_id: userId
-      open: true
-      type: 'multi'
-      participants: [ObjectID(userId)]
+    Q(
+      Competition.create(
+        name: name
+        owner_id: userId
+        open: true
+        type: 'multi'
+        participants: [ObjectID(userId)]
+      ).exec()
     ).then (competition) ->
       bus.emit('competition:started', competition)
       competition
 
   endCompetition: (competitionId) ->
-    update = Q.nbind(Competition.findOneAndUpdate, Competition)
-    update(
-      { _id: competitionId },
-      { open: false }
+    Q(
+      Competition.findOneAndUpdate(
+        { _id: competitionId },
+        { open: false }
+      )
     ).then (competition) ->
       bus.emit('competition:ended', competition)
       competition
 
   voteFor: (userId, competitionId, choiceId) ->
-    update = Q.nbind(@Vote.findByIdAndUpdate, @Vote)
     query =
       user_id: userId
     toUpdate =
       choice_id: choiceId
 
-    update(query, toUpdate)
+    Q(Vote.findByIdAndUpdate(query, toUpdate).exec())
     .then (vote) ->
       bus.emit('vote:cast', vote)
       vote
