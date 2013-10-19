@@ -23,36 +23,23 @@ class VotingHttpApi extends pie.HttpApi
 
 # Lists one user
 listUser = (req, res) ->
-  userId = parseInt(req.url.replace('/user/', ''), 10)
+  userId = req.url.replace('/user/', '')
   if not userId
     res.json(400, {message: "must provide userId"})
     return
 
-  @api.listUsers(userId)
-  .then((user) ->
-    if not user?.length
-      console.log "[HTTP] 404: no user found for userId: #{userId}"
-      res.json(404, {})
-    else
-      console.log "[HTTP] 200: found user: #{user[0]}"
-      res.json(200, user[0])
+  @listSingle(
+    res,
+    @api.listUsers(userId),
+    { typeName: 'user', query: { user_id: userId } }
   )
-  .fail((err) ->
-    errorMsg = "failed to find user. reason: #{err}"
-    console.error(errorMsg)
-    console.error(err.stack)
-    res.json(500, {error: errorMsg})
-  )
-  .done()
 
 # Lists all users
 listUsers = (req, res) ->
   @listMultiple(
     res,
     @api.listUsers(),
-    {
-      typeName: 'users'
-    }
+    { typeName: 'users' }
   )
 
 createUser = (req, res) ->

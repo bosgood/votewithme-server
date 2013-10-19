@@ -50,14 +50,19 @@ class HttpApiEndpoint
     }
 
   listAny: (res, promise, options, packageData) ->
-    promise.then((results) ->
+    promise
+    .then((results) ->
       if results?.length
         console.log "[HTTP] 200: found #{results.length} #{options.typeName}"
         res.json(200, packageData(results))
       else
-        console.log "[HTTP] 404: no #{options.typeName} found"
+        if options.query
+          console.log "[HTTP] 404: no #{options.typeName} found for query:", options.query
+        else
+          console.log "[HTTP] 404: no #{options.typeName} found"
         res.json(404, {})
-    ).fail((err) ->
+    )
+    .fail((err) ->
       errorMsg = "failed to list #{options.typeName}"
       res.json(500, { error: "#{errorMsg}. reason: #{err}" })
       console.error("[HTTP] 500: #{errorMsg}")
