@@ -47,22 +47,13 @@ listUser = (req, res) ->
 
 # Lists all users
 listUsers = (req, res) ->
-  @api.listUsers()
-  .then((users) =>
-    if users?.length
-      console.log "[HTTP] 200: found #{users.length} users"
-      res.json(200, @createDataPage(users))
-    else
-      console.log "[HTTP] 404: no users found"
-      res.json(404, {})
+  @listMultiple(
+    res,
+    @api.listUsers(),
+    {
+      typeName: 'users'
+    }
   )
-  .fail((err) ->
-    errorMsg = 'failed to list users'
-    res.json(500, {error: "#{errorMsg}. reason: #{err}"})
-    console.error("[HTTP] 500: #{errorMsg}")
-    console.error(err.stack)
-  )
-  .done()
 
 createUser = (req, res) ->
   @api.createUser(req.body.name)

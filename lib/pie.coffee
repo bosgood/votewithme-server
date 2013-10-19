@@ -49,7 +49,29 @@ class HttpApiEndpoint
       objects: dataArray
     }
 
-  listSingle: (query, options) ->
+  listAny: (res, promise, options, packageData) ->
+    promise.then((results) ->
+      if results?.length
+        console.log "[HTTP] 200: found #{results.length} #{options.typeName}"
+        res.json(200, packageData(results))
+      else
+        console.log "[HTTP] 404: no #{options.typeName} found"
+        res.json(404, {})
+    ).fail((err) ->
+      errorMsg = "failed to list #{options.typeName}"
+      res.json(500, { error: "#{errorMsg}. reason: #{err}" })
+      console.error("[HTTP] 500: #{errorMsg}")
+      console.error(err.stack)
+    )
+    .done()
+
+  listSingle: (res, promise, options) ->
+    packageData = (results) -> results[0]
+    @listAny(res, promise, options, packageData)
+
+  listMultiple: (res, promise, options) ->
+    packageData = (results) => @createDataPage(results)
+    @listAny(res, promise, options, packageData)
 
 # createEndpoint = (handler) ->
 #   # class endPoint extends HttpApiEndpoint
