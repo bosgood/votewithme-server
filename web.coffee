@@ -1,6 +1,6 @@
 # Main web server definition
 db = require('./db').connect()
-db.on 'connected', ->
+db.connection.on 'connected', ->
   InternalApi = require('./api')
   api = new InternalApi(db)
 
