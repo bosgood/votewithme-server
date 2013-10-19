@@ -18,7 +18,7 @@ class InternalApi
 
   createUser: (name) ->
     console.log "[API] create user (name=#{name})"
-    Q(User.create(name: name).exec())
+    Q.nbind(User.create, User)(name: name)
     .then (val) ->
       bus.emit('user:created', val)
       val
@@ -94,15 +94,13 @@ class InternalApi
 
   startCompetition: (userId, name) ->
     console.log "[API] start competition (userId=#{userId}, name=#{name})"
-    Q(
-      Competition.create(
+    Q.nbind(Competition.create, Competition)(
         name: name
-        owner_id: userId
+        owner_id: ObjectID(userId)
         open: true
         type: 'multi'
-        participants: [ObjectID(userId)]
-      ).exec()
-    ).then (competition) ->
+    )
+    .then (competition) ->
       bus.emit('competition:started', competition)
       competition
 
