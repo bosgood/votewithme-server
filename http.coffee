@@ -11,14 +11,14 @@ class VotingHttpApi extends pie.HttpApi
     [/user\/\w+/, 'get', listUser]
     ['/users', 'get', listUsers]
     ['/user', 'post', createUser]
+    [/competition\/\w+/, 'get', listCompetition]
     ['/competitions/all', 'get', listCompetitions]
     ['/competitions/by-owner', 'get', listCompetitionsByOwner]
     ['/competitions/by-membership', 'get', listCompetitionsByMembership]
     ['/competition', 'post', startCompetition]
     ['/competition/end', 'post', endCompetition]
+    ['/competition/join', 'post', joinCompetition]
     # [/competition\/\w+/withdraw/, 'post', withdrawFromCompetition]
-    # [/competition\/\w+/join/, 'post', joinCompetition]
-    # [/competition\/\w+/, 'get', listCompetition]
   ]
 
 # Endpoint handler methods
@@ -59,14 +59,14 @@ createUser = (req, res) ->
   .done()
 
 listCompetition = (req, res) ->
-  competitionId = @parseObjectId(req, 'competitions/all')
+  competitionId = @parseObjectId(req, 'competition')
   if not competitionId
     res.json(400, {message: "must provide competitionId"})
     return
 
   @listSingle(
     res,
-    @api.listCompetitions(userId),
+    @api.listCompetitions(competitionId),
     { typeName: 'competition', query: { competition_id: competitionId } }
   )
 
