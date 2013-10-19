@@ -15,10 +15,10 @@ class VotingHttpApi extends pie.HttpApi
     ['/competitions/all', 'get', listCompetitions]
     ['/competitions/by-owner', 'get', listCompetitionsByOwner]
     ['/competitions/by-membership', 'get', listCompetitionsByMembership]
-    ['/competition', 'post', startCompetition]
     ['/competition/end', 'post', endCompetition]
     ['/competition/join', 'post', joinCompetition]
-    # [/competition\/\w+/withdraw/, 'post', withdrawFromCompetition]
+    ['/competition/withdraw', 'post', withdrawFromCompetition]
+    ['/competition', 'post', startCompetition]
   ]
 
 # Endpoint handler methods
@@ -110,6 +110,18 @@ endCompetition = (req, res) ->
   .done()
 
 joinCompetition = (req, res) ->
+  @api.joinCompetition(req.body.userId, req.body.competitionId)
+  .then((competitionMembership) ->
+    res.json(201, competitionMembership)
+    console.log("[HTTP] 201: joined competition: #{competitionMembership}")
+  )
+  .fail((err) ->
+    errorMsg = "failed to join competition. reason: #{err}"
+    res.json(500, {error: errorMsg})
+    console.error("[HTTP] 500: #{errorMsg}")
+    console.error(err.stack)
+  )
+  .done()
 
 withdrawFromCompetition = (req, res) ->
 
