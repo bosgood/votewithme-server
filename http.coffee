@@ -14,6 +14,8 @@ class VotingHttpApi extends pie.HttpApi
     ['/competitions/all', 'get', listCompetitions]
     ['/competitions/by-owner', 'get', listCompetitionsByOwner]
     ['/competitions/by-membership', 'get', listCompetitionsByMembership]
+    ['/competition', 'post', startCompetition]
+    ['/competition/end', 'post', endCompetition]
     # [/competition\/\w+/withdraw/, 'post', withdrawFromCompetition]
     # [/competition\/\w+/join/, 'post', joinCompetition]
     # [/competition\/\w+/, 'get', listCompetition]
@@ -78,6 +80,22 @@ listCompetitions = (req, res) ->
 listCompetitionsByOwner = (req, res) ->
 
 listCompetitionsByMembership = (req, res) ->
+
+startCompetition = (req, res) ->
+  @api.startCompetition(req.body.userId, req.body.name)
+  .then((competition) ->
+    res.json(201, competition)
+    console.log("[HTTP] 201: started competition: #{competition}")
+  )
+  .fail((err) ->
+    errorMsg = "failed to start competition. reason: #{err}"
+    res.json(500, {error: errorMsg})
+    console.error("[HTTP] 500: #{errorMsg}")
+    console.error(err.stack)
+  )
+  .done()
+
+endCompetition = (req, res) ->
 
 joinCompetition = (req, res) ->
 
