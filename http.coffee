@@ -48,7 +48,7 @@ listUser = (req, res) ->
 # Lists all users
 listUsers = (req, res) ->
   @api.listUsers()
-  .then((users) ->
+  .then((users) =>
     if users?.length
       console.log "[HTTP] 200: found #{users.length} users"
       res.json(200, @createDataPage(users))
@@ -82,7 +82,7 @@ listCompetition = (req, res) ->
 
 listCompetitions = (req, res) ->
   @api.listCompetitions()
-  .then((competitions) ->
+  .then((competitions) =>
     if competitions?.length
       console.log "[HTTP] 200: found #{competitions.length} competitions"
       res.json(200, @createDataPage(competitions))

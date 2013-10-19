@@ -40,7 +40,7 @@ class HttpApiEndpoint
       @handler.call(@, req, res)
 
   # Creates an object suitable for use with paged UIs
-  _createDataPage: (dataArray, offset = 0, limit = -1) ->
+  createDataPage: (dataArray, offset = 0, limit = -1) ->
     return {
       totalCount: dataArray.length
       count: dataArray.length
