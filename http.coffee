@@ -23,7 +23,7 @@ class VotingHttpApi extends pie.HttpApi
 
 # Lists one user
 listUser = (req, res) ->
-  userId = req.url.replace('/user/', '')
+  userId = @parseObjectId(req, 'user')
   if not userId
     res.json(400, {message: "must provide userId"})
     return
@@ -57,24 +57,23 @@ createUser = (req, res) ->
   .done()
 
 listCompetition = (req, res) ->
+  competitionId = @parseObjectId(req, 'competitions/all')
+  if not competitionId
+    res.json(400, {message: "must provide competitionId"})
+    return
+
+  @listSingle(
+    res,
+    @api.listCompetitions(userId),
+    { typeName: 'competition', query: { competition_id: competitionId } }
+  )
 
 listCompetitions = (req, res) ->
-  @api.listCompetitions()
-  .then((competitions) =>
-    if competitions?.length
-      console.log "[HTTP] 200: found #{competitions.length} competitions"
-      res.json(200, @createDataPage(competitions))
-    else
-      console.log "[HTTP] 404: no competitions found"
-      res.json(404, {})
+  @listMultiple(
+    res,
+    @api.listCompetitions(),
+    { typeName: 'competitions' }
   )
-  .fail((err) ->
-    errorMsg = "failed to list competitions"
-    res.json(500, {error: "#{errorMsg}. reason: #{err}"})
-    console.error("[HTTP] 500: #{errorMsg}")
-    console.error(err.stack)
-  )
-  .done()
 
 listCompetitionsByOwner = (req, res) ->
 

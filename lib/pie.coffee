@@ -39,6 +39,9 @@ class HttpApiEndpoint
     return (req, res) =>
       @handler.call(@, req, res)
 
+  parseObjectId: (req, urlPrefix) ->
+    req.url.replace("/#{urlPrefix}/", '')
+
   # Creates an object suitable for use with paged UIs
   createDataPage: (dataArray, offset = 0, limit = -1) ->
     return {
@@ -77,9 +80,5 @@ class HttpApiEndpoint
   listMultiple: (res, promise, options) ->
     packageData = (results) => @createDataPage(results)
     @listAny(res, promise, options, packageData)
-
-# createEndpoint = (handler) ->
-#   # class endPoint extends HttpApiEndpoint
-#   return new HttpApiEndpoint(handler)
 
 module.exports = {HttpApi, HttpApiEndpoint}
