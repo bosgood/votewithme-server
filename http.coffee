@@ -27,9 +27,9 @@ endpoints = -> [
   ['/competitions/all', 'get', listCompetitions]
   ['/competitions/by-owner', 'get', listCompetitionsByOwner]
   ['/competitions/by-membership', 'get', listCompetitionsByMembership]
-  [/competition\/\w+/withdraw/, 'post', withdrawFromCompetition]
-  [/competition\/\w+/join/, 'post', joinCompetition]
-  [/competition\/\w+/, 'get', listCompetition]
+  # [/competition\/\w+/withdraw/, 'post', withdrawFromCompetition]
+  # [/competition\/\w+/join/, 'post', joinCompetition]
+  # [/competition\/\w+/, 'get', listCompetition]
 ]
 
 # Creates an object suitable for use with paged UIs
