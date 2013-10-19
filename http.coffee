@@ -96,6 +96,18 @@ startCompetition = (req, res) ->
   .done()
 
 endCompetition = (req, res) ->
+  @api.endCompetition(req.body.competitionId)
+  .then((competition) ->
+    res.json(200, competition)
+    console.log "[HTTP] 200: ended competition: #{competition}"
+  )
+  .fail((err) ->
+    errorMsg = "failed to end competition. reason: #{err}"
+    res.json(500, {error: errorMsg})
+    console.error("[HTTP] 500: #{errorMsg}")
+    console.error(err.stack)
+  )
+  .done()
 
 joinCompetition = (req, res) ->
 

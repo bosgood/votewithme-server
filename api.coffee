@@ -107,8 +107,9 @@ class InternalApi
   endCompetition: (competitionId) ->
     console.log "[API] end competition (competitionId=#{competitionId})"
     Q(
+      # TODO is this working?
       Competition.findOneAndUpdate(
-        { _id: competitionId },
+        { _id: ObjectID(competitionId) },
         { open: false }
       )
     ).then (competition) ->
