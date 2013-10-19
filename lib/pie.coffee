@@ -52,7 +52,7 @@ class HttpApiEndpoint
       objects: dataArray
     }
 
-  listAny: (res, promise, options, packageData) ->
+  listAny: (res, promise, options, packageData, emptyResult) ->
     promise
     .then((results) ->
       if results?.length
@@ -63,7 +63,7 @@ class HttpApiEndpoint
           console.log "[HTTP] 404: no #{options.typeName} found for query:", options.query
         else
           console.log "[HTTP] 404: no #{options.typeName} found"
-        res.json(404, {})
+        res.json(404, emptyResult)
     )
     .fail((err) ->
       errorMsg = "failed to list #{options.typeName}"
@@ -75,10 +75,10 @@ class HttpApiEndpoint
 
   listSingle: (res, promise, options) ->
     packageData = (results) -> results[0]
-    @listAny(res, promise, options, packageData)
+    @listAny(res, promise, options, packageData, {})
 
   listMultiple: (res, promise, options) ->
     packageData = (results) => @createDataPage(results)
-    @listAny(res, promise, options, packageData)
+    @listAny(res, promise, options, packageData, [])
 
 module.exports = {HttpApi, HttpApiEndpoint}
