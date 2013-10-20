@@ -24,6 +24,7 @@ class InternalApi
       val
 
   listUsers: (userId) ->
+    # TODO: set .lean() on query for performance
     console.log "[API] list users (userId=#{userId})"
     if userId?
       query = _id: ObjectID(userId)
@@ -56,13 +57,16 @@ class InternalApi
       .exec()
     )
     .then((memberships) ->
-      Q(
-        Competition.find().where('_id')
-        .or(memberships.map (membership) ->
-          { _id: membership.competition_id }
-        )
+      membershipIds = memberships.map((membership) ->
+        _id: membership.competition_id
       )
+      anyCompetition = { $or: membershipIds }
+      Q(Competition.find(anyCompetition).exec())
     )
+
+  listCompetitionMemberships: ->
+    console.log "[API] list competition memberships"
+    Q(CompetitionMembership.find().exec())
 
   joinCompetition: (userId, competitionId) ->
     console.log "[API] join competition (userId=#{userId}, competitionId=#{competitionId})"
