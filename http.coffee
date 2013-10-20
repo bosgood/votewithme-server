@@ -8,7 +8,7 @@ init = (api, port) ->
 
 class VotingHttpApi extends pie.HttpApi
   endpoints: -> [
-    [/user\/\w+/, 'get', listUser]
+    [/user\/\w+/, 'get', listUser]  # TODO: use '/user/:id'
     ['/users', 'get', listUsers]
     ['/user', 'post', createUser]
     [/competition\/\w+/, 'get', listCompetition]
