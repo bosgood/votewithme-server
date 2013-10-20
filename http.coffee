@@ -147,5 +147,20 @@ joinCompetition = (req, res) ->
   .done()
 
 withdrawFromCompetition = (req, res) ->
+  userId = req.body.userId
+  competitionId = req.params.competitionId
+
+  @api.withdrawFromCompetition(userId, competitionId)
+  .then((props) ->
+    res.json(200, props)
+    console.log "[HTTP] 200: withdrew from competition (userId=#{props.userId}, competitionId=#{props.competitionId})"
+  )
+  .fail((err) =>
+    @handleApiError(
+      res,
+      err,
+      errorMsg: "failed to withdraw from competition (userId=#{userId}, competitionId=#{competitionId})"
+    )
+  )
 
 module.exports = {init}
