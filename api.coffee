@@ -30,7 +30,7 @@ class InternalApi
       query = _id: ObjectID(userId)
     Q(User.find(query).exec())
 
-  listCompetitionsByOwner: (ownerId) ->
+  listCompetitionsByOwner: (ownerId, showClosed = false) ->
     console.log "[API] list competitions by owner (ownerId=#{ownerId})"
     if not ownerId?
       deferred = Q.defer()
@@ -40,6 +40,8 @@ class InternalApi
       return deferred.promise
 
     query = owner_id: ObjectID(ownerId)
+    unless showClosed
+      query.open = true
     Q(Competition.find(query).exec())
 
   listCompetitions: (competitionId, showClosed = false) ->

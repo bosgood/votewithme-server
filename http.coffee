@@ -92,9 +92,12 @@ listCompetitions = (req, res) ->
   )
 
 listCompetitionsByOwner = (req, res) ->
+  if req.query.showClosed == 'true'
+    showClosed = true
+
   @listMultiple(
     res,
-    @api.listCompetitionsByOwner(req.params.ownerId),
+    @api.listCompetitionsByOwner(req.params.ownerId, showClosed),
     { typeName: 'competitions' }
   )
 
