@@ -57,6 +57,10 @@ class InternalApi
       .exec()
     )
     .then((memberships) ->
+      if memberships?.length == 0
+        console.log "[API] found no competition memberships (userId=#{userId})"
+        return []
+
       membershipIds = memberships.map((membership) ->
         _id: membership.competition_id
       )
