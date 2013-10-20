@@ -23,7 +23,7 @@ class HttpApi
     for [route, method, handler] in @endpoints()
       console.log "[HTTP] adding endpoint: #{method.toUpperCase()} #{route}"
       endpoint = new HttpApiEndpoint(handler)
-      @app[method](route, endpoint.getRouteHandler(@api))
+      @app[method.toLowerCase()](route, endpoint.getRouteHandler(@api))
 
     @app.listen(@port)
     console.log "[HTTP] listening on port #{@port}"
