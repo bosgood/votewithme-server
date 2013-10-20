@@ -42,14 +42,19 @@ class InternalApi
     query = owner_id: ObjectID(ownerId)
     Q(Competition.find(query).exec())
 
-  listCompetitions: (competitionId) ->
-    console.log "[API] list competitions (competitionId=#{competitionId})"
+  listCompetitions: (competitionId, showClosed = false) ->
+    console.log "[API] list competitions (competitionId=#{competitionId}, showClosed=#{showClosed})"
+    query = {}
+    unless showClosed
+      query.open = true
+
     if competitionId?
-      query = _id: ObjectID(competitionId)
+      query._id = ObjectID(competitionId)
+
     Q(Competition.find(query).exec())
 
-  listCompetitionsByMembership: (userId) ->
-    console.log "[API] list competitions by membership (userId=#{userId})"
+  listCompetitionsByMembership: (userId, showClosed = false) ->
+    console.log "[API] list competitions by membership (userId=#{userId}, showClosed=#{showClosed})"
     Q(
       CompetitionMembership.find(
         user_id: userId
@@ -65,13 +70,17 @@ class InternalApi
         _id: membership.competition_id
       )
       anyCompetition = { $or: membershipIds }
-      Q(Competition.find(anyCompetition).exec())
+      dbQuery = Competition.find(anyCompetition)
+      unless showClosed
+        dbQuery.where({ open: true })
+      Q(dbQuery.exec())
     )
 
   listCompetitionMemberships: (competitionId) ->
     console.log "[API] list competition memberships (competitionId=#{competitionId})"
     if competitionId?
       query = competition_id: ObjectID(competitionId)
+
     Q(CompetitionMembership.find(query).exec())
 
   joinCompetition: (userId, competitionId) ->
@@ -102,11 +111,11 @@ class InternalApi
       bus.emit('competitionMembership:created', props)
       props
 
-  startCompetition: (userId, name) ->
-    console.log "[API] start competition (userId=#{userId}, name=#{name})"
+  startCompetition: (ownerId, name) ->
+    console.log "[API] start competition (ownerId=#{ownerId}, name=#{name})"
     Q.nbind(Competition.create, Competition)(
         name: name
-        owner_id: ObjectID(userId)
+        owner_id: ObjectID(ownerId)
         open: true
         type: 'multi'
     )

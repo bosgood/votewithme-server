@@ -66,21 +66,28 @@ createUser = (req, res) ->
   .done()
 
 listCompetition = (req, res) ->
+  if req.query.showClosed == 'true'
+    showClosed = true
+
   competitionId = req.params.competitionId
   if not competitionId
     res.json(400, {message: "must provide competitionId"})
     return
 
+  console.log "[HTTP] request to list competition (competitionId=#{competitionId}, showClosed=#{showClosed})"
   @listSingle(
     res,
-    @api.listCompetitions(competitionId),
+    @api.listCompetitions(competitionId, showClosed),
     { typeName: 'competition', query: { competition_id: competitionId } }
   )
 
 listCompetitions = (req, res) ->
+  if req.query.showClosed == 'true'
+    showClosed = true
+  console.log "[HTTP] request to list competitions (showClosed=#{showClosed})"
   @listMultiple(
     res,
-    @api.listCompetitions(),
+    @api.listCompetitions(null, showClosed),
     { typeName: 'competitions' }
   )
 
@@ -108,16 +115,16 @@ listCompetitionMemberships = (req, res) ->
   )
 
 startCompetition = (req, res) ->
-  userId = req.body.userId
+  ownerId = req.body.ownerId
   name = req.body.name
 
-  @api.startCompetition(userId, name)
+  @api.startCompetition(ownerId, name)
   .then((competition) ->
     res.json(201, competition)
     console.log("[HTTP] 201: started competition: #{competition}")
   )
   .fail((err) =>
-    @handleApiError(res, err, errorMsg: "failed to start competition (userId=#{userId}, name=#{name})")
+    @handleApiError(res, err, errorMsg: "failed to start competition (ownerId=#{ownerId}, name=#{name})")
   )
   .done()
 
