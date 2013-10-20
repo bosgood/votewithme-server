@@ -82,6 +82,11 @@ listCompetitions = (req, res) ->
   )
 
 listCompetitionsByOwner = (req, res) ->
+  @listMultiple(
+    res,
+    @api.listCompetitionsByOwner(req.params.ownerId),
+    { typeName: 'competitions' }
+  )
 
 listCompetitionsByMembership = (req, res) ->
   @listMultiple(

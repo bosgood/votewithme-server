@@ -32,14 +32,14 @@ class InternalApi
 
   listCompetitionsByOwner: (ownerId) ->
     console.log "[API] list competitions by owner (ownerId=#{ownerId})"
-    if not userId?
-      errPromise = Q.defer()
-      errPromise.reject(
+    if not ownerId?
+      deferred = Q.defer()
+      deferred.reject(
         new Error("must provide ownerId to list competitions")
       )
-      return errPromise
+      return deferred.promise
 
-    query = owner_id: ObjectID(userId)
+    query = owner_id: ObjectID(ownerId)
     Q(Competition.find(query).exec())
 
   listCompetitions: (competitionId) ->
