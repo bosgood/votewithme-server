@@ -66,11 +66,7 @@ class HttpApiEndpoint
         res.json(404, emptyResult)
     )
     .fail((err) =>
-      @handleApiError(
-        res,
-        err,
-        errorMsg: "failed to list #{options.typeName}"
-      )
+      @handleApiError(res, err, errorMsg: "failed to list #{options.typeName}")
     )
     .done()
 

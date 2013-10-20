@@ -112,11 +112,7 @@ startCompetition = (req, res) ->
     console.log("[HTTP] 201: started competition: #{competition}")
   )
   .fail((err) =>
-    @handleApiError(
-      res,
-      err,
-      errorMsg: "failed to start competition"
-    )
+    @handleApiError(res, err, errorMsg: "failed to start competition")
   )
   .done()
 
@@ -127,11 +123,7 @@ endCompetition = (req, res) ->
     console.log "[HTTP] 200: ended competition: #{competition}"
   )
   .fail((err) =>
-    @handleApiError(
-      res,
-      err,
-      errorMsg: "failed to end competition"
-    )
+    @handleApiError(res, err, errorMsg: "failed to end competition")
   )
   .done()
 
@@ -142,11 +134,7 @@ joinCompetition = (req, res) ->
     console.log("[HTTP] 201: joined competition: #{competitionMembership}")
   )
   .fail((err) =>
-    @handleApiError(
-      res,
-      err,
-      errorMsg: "failed to join competition"
-    )
+    @handleApiError(res, err, errorMsg: "failed to join competition")
   )
   .done()
 
@@ -160,9 +148,7 @@ withdrawFromCompetition = (req, res) ->
     console.log "[HTTP] 200: withdrew from competition (userId=#{props.userId}, competitionId=#{props.competitionId})"
   )
   .fail((err) =>
-    @handleApiError(
-      res,
-      err,
+    @handleApiError(res, err,
       errorMsg: "failed to withdraw from competition (userId=#{userId}, competitionId=#{competitionId})"
     )
   )
