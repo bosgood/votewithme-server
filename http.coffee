@@ -49,7 +49,9 @@ listUsers = (req, res) ->
   )
 
 createUser = (req, res) ->
-  @api.createUser(req.body.name)
+  name = req.body.name
+
+  @api.createUser(name)
   .then((user) ->
     res.json(201, user)
     console.log("[HTTP] 201: created user: #{user}")
@@ -58,7 +60,7 @@ createUser = (req, res) ->
     @handleApiError(
       res,
       err,
-      errorMsg: "failed to create user"
+      errorMsg: "failed to create user (name=#{name})"
     )
   )
   .done()
@@ -106,35 +108,45 @@ listCompetitionMemberships = (req, res) ->
   )
 
 startCompetition = (req, res) ->
-  @api.startCompetition(req.body.userId, req.body.name)
+  userId = req.body.userId
+  name = req.body.name
+
+  @api.startCompetition(userId, name)
   .then((competition) ->
     res.json(201, competition)
     console.log("[HTTP] 201: started competition: #{competition}")
   )
   .fail((err) =>
-    @handleApiError(res, err, errorMsg: "failed to start competition")
+    @handleApiError(res, err, errorMsg: "failed to start competition (userId=#{userId}, name=#{name})")
   )
   .done()
 
 endCompetition = (req, res) ->
-  @api.endCompetition(req.params.competitionId)
+  competitionId = req.params.competitionId
+
+  @api.endCompetition(competitionId)
   .then((competition) ->
     res.json(200, competition)
     console.log "[HTTP] 200: ended competition: #{competition}"
   )
   .fail((err) =>
-    @handleApiError(res, err, errorMsg: "failed to end competition")
+    @handleApiError(res, err, errorMsg: "failed to end competition (competitionId=#{competitionId})")
   )
   .done()
 
 joinCompetition = (req, res) ->
-  @api.joinCompetition(req.body.userId, req.params.competitionId)
+  userId = req.body.userId
+  competitionId = req.params.competitionId
+
+  @api.joinCompetition(userId, competitionId)
   .then((competitionMembership) ->
     res.json(201, competitionMembership)
     console.log("[HTTP] 201: joined competition: #{competitionMembership}")
   )
   .fail((err) =>
-    @handleApiError(res, err, errorMsg: "failed to join competition")
+    @handleApiError(res, err,
+      errorMsg: "failed to join competition (userId=#{userId}, competitionId=#{competitionId})"
+    )
   )
   .done()
 
