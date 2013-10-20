@@ -8,25 +8,28 @@ init = (api, port) ->
 
 class VotingHttpApi extends pie.HttpApi
   endpoints: -> [
-    [/user\/\w+/, 'get', listUser]  # TODO: use '/user/:id'
+    ['/user/:userId', 'get', listUser]
     ['/users', 'get', listUsers]
     ['/user', 'post', createUser]
-    [/competition\/\w+/, 'get', listCompetition]
+    ['/competition/:competitionId', 'get', listCompetition]
+    ['/competitions/by-owner/:ownerId', 'get', listCompetitionsByOwner]
+    ['/competitions/by-membership/:userId', 'get', listCompetitionsByMembership]
+    ['/competitions/memberships', 'get', listCompetitionMemberships]
     ['/competitions/all', 'get', listCompetitions]
-    ['/competitions/by-owner', 'get', listCompetitionsByOwner]
-    ['/competitions/by-membership', 'get', listCompetitionsByMembership]
-    ['/competition/end', 'post', endCompetition]
-    ['/competition/join', 'post', joinCompetition]
-    ['/competition/withdraw', 'post', withdrawFromCompetition]
+    ['/competitions', 'get', listCompetitions]
+    ['/competition/:competitionId/end', 'post', endCompetition]
+    ['/competition/:competitionId/join', 'post', joinCompetition]
+    ['/competition/:competitionId/withdraw', 'post', withdrawFromCompetition]
+    ['/competition/:competitionId/memberships', 'get', listCompetitionMemberships]
     ['/competition', 'post', startCompetition]
-    ['/memberships', 'get', listCompetitionMemberships]
   ]
 
 # Endpoint handler methods
 
 # Lists one user
 listUser = (req, res) ->
-  userId = @parseObjectId(req, 'user')
+  userId = req.params.userId
+  console.log "[HTTP] request to list user (userId=#{userId})"
   if not userId
     res.json(400, {message: "must provide userId"})
     return
@@ -60,7 +63,7 @@ createUser = (req, res) ->
   .done()
 
 listCompetition = (req, res) ->
-  competitionId = @parseObjectId(req, 'competition')
+  competitionId = req.params.competitionId
   if not competitionId
     res.json(400, {message: "must provide competitionId"})
     return
@@ -88,9 +91,11 @@ listCompetitionsByMembership = (req, res) ->
   )
 
 listCompetitionMemberships = (req, res) ->
+  if req.params.competitionId?
+    competitionId = req.params.competitionId
   @listMultiple(
     res,
-    @api.listCompetitionMemberships(),
+    @api.listCompetitionMemberships(competitionId),
     { typeName: 'competition memberships' }
   )
 

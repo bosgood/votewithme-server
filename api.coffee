@@ -64,9 +64,11 @@ class InternalApi
       Q(Competition.find(anyCompetition).exec())
     )
 
-  listCompetitionMemberships: ->
-    console.log "[API] list competition memberships"
-    Q(CompetitionMembership.find().exec())
+  listCompetitionMemberships: (competitionId) ->
+    console.log "[API] list competition memberships (competitionId=#{competitionId})"
+    if competitionId?
+      query = _id: ObjectID(competitionId)
+    Q(CompetitionMembership.find(query).exec())
 
   joinCompetition: (userId, competitionId) ->
     console.log "[API] join competition (userId=#{userId}, competitionId=#{competitionId})"
