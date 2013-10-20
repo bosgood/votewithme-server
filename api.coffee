@@ -84,6 +84,9 @@ class InternalApi
     Q(CompetitionMembership.find(query).exec())
 
   joinCompetition: (userId, competitionId) ->
+    unless userId? and competitionId?
+      throw new Error("must provide userId and competitionId")
+
     console.log "[API] join competition (userId=#{userId}, competitionId=#{competitionId})"
     props =
       user_id: userId

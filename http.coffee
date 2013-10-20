@@ -131,6 +131,10 @@ startCompetition = (req, res) ->
 endCompetition = (req, res) ->
   competitionId = req.params.competitionId
 
+  if not competitionId?
+    res.json(400, {error: "must provide competitionId"})
+    return
+
   @api.endCompetition(competitionId)
   .then((competition) ->
     res.json(200, competition)
@@ -144,6 +148,10 @@ endCompetition = (req, res) ->
 joinCompetition = (req, res) ->
   userId = req.body.userId
   competitionId = req.params.competitionId
+
+  if not userId? and competitionId?
+    res.json(400, {error: "must provide userId and competitionId"})
+    return
 
   @api.joinCompetition(userId, competitionId)
   .then((competitionMembership) ->
@@ -160,6 +168,10 @@ joinCompetition = (req, res) ->
 withdrawFromCompetition = (req, res) ->
   userId = req.body.userId
   competitionId = req.params.competitionId
+
+  if not userId? and competitionId?
+    res.json(400, {error: "must provide userId and competitionId"})
+    return
 
   @api.withdrawFromCompetition(userId, competitionId)
   .then((props) ->
