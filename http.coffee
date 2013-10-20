@@ -99,9 +99,12 @@ listCompetitionsByOwner = (req, res) ->
   )
 
 listCompetitionsByMembership = (req, res) ->
+  if req.query.showClosed == 'true'
+    showClosed = true
+
   @listMultiple(
     res,
-    @api.listCompetitionsByMembership(req.params.userId),
+    @api.listCompetitionsByMembership(req.params.userId, showClosed),
     { typeName: 'competitions' }
   )
 

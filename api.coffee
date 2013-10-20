@@ -72,7 +72,7 @@ class InternalApi
       anyCompetition = { $or: membershipIds }
       dbQuery = Competition.find(anyCompetition)
       unless showClosed
-        dbQuery.where({ open: true })
+        dbQuery.where('open').equals(true)
       Q(dbQuery.exec())
     )
 
