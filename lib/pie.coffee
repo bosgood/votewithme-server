@@ -59,11 +59,12 @@ class HttpApiEndpoint
         console.log "[HTTP] 200: found #{results.length} #{options.typeName}"
         res.json(200, packageData(results))
       else
+        respCode = if options.allowEmpty then 200 else 404
         if options.query
-          console.log "[HTTP] 404: no #{options.typeName} found for query:", options.query
+          console.log "[HTTP] #{respCode}: no #{options.typeName} found for query:", options.query
         else
-          console.log "[HTTP] 404: no #{options.typeName} found"
-        res.json(404, emptyResult)
+          console.log "[HTTP] #{respCode}: no #{options.typeName} found"
+        res.json(respCode, emptyResult)
     )
     .fail((err) =>
       @handleApiError(res, err, errorMsg: "failed to list #{options.typeName}")
@@ -83,6 +84,7 @@ class HttpApiEndpoint
 
   listMultiple: (res, promise, options) ->
     packageData = (results) => @createDataPage(results)
+    options.allowEmpty = true
     @listAny(res, promise, options, packageData, [])
 
   deleteSingle: (res, promise, options) ->
