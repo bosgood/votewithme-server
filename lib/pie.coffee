@@ -65,13 +65,21 @@ class HttpApiEndpoint
           console.log "[HTTP] 404: no #{options.typeName} found"
         res.json(404, emptyResult)
     )
-    .fail((err) ->
-      errorMsg = "failed to list #{options.typeName}"
-      res.json(500, { error: "#{errorMsg}. reason: #{err}" })
-      console.error("[HTTP] 500: #{errorMsg}")
-      console.error(err.stack)
+    .fail((err) =>
+      @handleApiError(
+        res,
+        err,
+        errorMsg: "failed to list #{options.typeName}"
+      )
     )
     .done()
+
+  handleApiError: (res, err, options) ->
+    errorMsg = if options.errorMsg then "#{options.errorMsg}." else ''
+    errorCode = options.errorCode or 500
+    console.error("[HTTP] #{errorCode}: #{errorMsg}")
+    console.error(err.stack)
+    res.json(errorCode, { error: errorMsg })
 
   listSingle: (res, promise, options) ->
     packageData = (results) -> results[0]
