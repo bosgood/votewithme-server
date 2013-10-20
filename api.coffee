@@ -117,11 +117,10 @@ class InternalApi
   endCompetition: (competitionId) ->
     console.log "[API] end competition (competitionId=#{competitionId})"
     Q(
-      # TODO is this working?
       Competition.findOneAndUpdate(
         { _id: ObjectID(competitionId) },
         { open: false }
-      )
+      ).exec()
     ).then (competition) ->
       bus.emit('competition:ended', competition)
       competition
