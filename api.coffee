@@ -71,7 +71,7 @@ class InternalApi
   listCompetitionMemberships: (competitionId) ->
     console.log "[API] list competition memberships (competitionId=#{competitionId})"
     if competitionId?
-      query = _id: ObjectID(competitionId)
+      query = competition_id: ObjectID(competitionId)
     Q(CompetitionMembership.find(query).exec())
 
   joinCompetition: (userId, competitionId) ->
