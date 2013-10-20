@@ -91,7 +91,7 @@ listCompetitionsByOwner = (req, res) ->
 listCompetitionsByMembership = (req, res) ->
   @listMultiple(
     res,
-    @api.listCompetitionsByMembership(req.body.userId),
+    @api.listCompetitionsByMembership(req.params.userId),
     { typeName: 'competitions' }
   )
 
@@ -119,7 +119,7 @@ startCompetition = (req, res) ->
   .done()
 
 endCompetition = (req, res) ->
-  @api.endCompetition(req.body.competitionId)
+  @api.endCompetition(req.params.competitionId)
   .then((competition) ->
     res.json(200, competition)
     console.log "[HTTP] 200: ended competition: #{competition}"
@@ -133,7 +133,7 @@ endCompetition = (req, res) ->
   .done()
 
 joinCompetition = (req, res) ->
-  @api.joinCompetition(req.body.userId, req.body.competitionId)
+  @api.joinCompetition(req.body.userId, req.params.competitionId)
   .then((competitionMembership) ->
     res.json(201, competitionMembership)
     console.log("[HTTP] 201: joined competition: #{competitionMembership}")
