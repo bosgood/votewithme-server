@@ -54,11 +54,12 @@ createUser = (req, res) ->
     res.json(201, user)
     console.log("[HTTP] 201: created user: #{user}")
   )
-  .fail((err) ->
-    errorMsg = "failed to create user. reason: #{err}"
-    res.json(500, {error: errorMsg})
-    console.error("[HTTP] 500: #{errorMsg}")
-    console.error(err.stack)
+  .fail((err) =>
+    @handleApiError(
+      res,
+      err,
+      errorMsg: "failed to create user"
+    )
   )
   .done()
 
@@ -110,11 +111,12 @@ startCompetition = (req, res) ->
     res.json(201, competition)
     console.log("[HTTP] 201: started competition: #{competition}")
   )
-  .fail((err) ->
-    errorMsg = "failed to start competition. reason: #{err}"
-    res.json(500, {error: errorMsg})
-    console.error("[HTTP] 500: #{errorMsg}")
-    console.error(err.stack)
+  .fail((err) =>
+    @handleApiError(
+      res,
+      err,
+      errorMsg: "failed to start competition"
+    )
   )
   .done()
 
@@ -124,11 +126,12 @@ endCompetition = (req, res) ->
     res.json(200, competition)
     console.log "[HTTP] 200: ended competition: #{competition}"
   )
-  .fail((err) ->
-    errorMsg = "failed to end competition. reason: #{err}"
-    res.json(500, {error: errorMsg})
-    console.error("[HTTP] 500: #{errorMsg}")
-    console.error(err.stack)
+  .fail((err) =>
+    @handleApiError(
+      res,
+      err,
+      errorMsg: "failed to end competition"
+    )
   )
   .done()
 
@@ -138,11 +141,12 @@ joinCompetition = (req, res) ->
     res.json(201, competitionMembership)
     console.log("[HTTP] 201: joined competition: #{competitionMembership}")
   )
-  .fail((err) ->
-    errorMsg = "failed to join competition. reason: #{err}"
-    res.json(500, {error: errorMsg})
-    console.error("[HTTP] 500: #{errorMsg}")
-    console.error(err.stack)
+  .fail((err) =>
+    @handleApiError(
+      res,
+      err,
+      errorMsg: "failed to join competition"
+    )
   )
   .done()
 
