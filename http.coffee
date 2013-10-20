@@ -19,6 +19,7 @@ class VotingHttpApi extends pie.HttpApi
     ['/competition/join', 'post', joinCompetition]
     ['/competition/withdraw', 'post', withdrawFromCompetition]
     ['/competition', 'post', startCompetition]
+    ['/memberships', 'get', listCompetitionMemberships]
   ]
 
 # Endpoint handler methods
@@ -80,6 +81,18 @@ listCompetitions = (req, res) ->
 listCompetitionsByOwner = (req, res) ->
 
 listCompetitionsByMembership = (req, res) ->
+  @listMultiple(
+    res,
+    @api.listCompetitionsByMembership(req.body.userId),
+    { typeName: 'competitions' }
+  )
+
+listCompetitionMemberships = (req, res) ->
+  @listMultiple(
+    res,
+    @api.listCompetitionMemberships(),
+    { typeName: 'competition memberships' }
+  )
 
 startCompetition = (req, res) ->
   @api.startCompetition(req.body.userId, req.body.name)
