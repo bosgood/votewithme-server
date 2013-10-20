@@ -85,4 +85,13 @@ class HttpApiEndpoint
     packageData = (results) => @createDataPage(results)
     @listAny(res, promise, options, packageData, [])
 
+  deleteSingle: (res, promise, options) ->
+    promise
+    .then(->
+      res.json(200, {})
+    )
+    .fail((err) =>
+      @handleApiError(res, err, errorMsg: "failed to delete #{options.typeName}")
+    )
+
 module.exports = {HttpApi, HttpApiEndpoint}
