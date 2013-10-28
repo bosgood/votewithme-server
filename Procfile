@@ -1,3 +1,3 @@
 web:     node web.js
-debug:   node --debug web.js
-debug1:  node --debug-brk web.js
+debug:   coffee --nodejs --debug web.coffee
+debug1:  coffee --nodejs --debug-brk web.coffee
