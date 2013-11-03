@@ -8,8 +8,8 @@ models = require('./db').models
 User = models.user
 Competition = models.competition
 Vote = models.vote
-CompetitionMembership = models.competitionMembership
-CompetitionCandidate = models.competitionCandidate
+CompetitionMembership = models.competition_membership
+CompetitionCandidate = models.competition_candidate
 
 # Provides a set of methods for voting data CRUD operations
 class InternalApi
