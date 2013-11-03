@@ -1,12 +1,10 @@
-# resourceful model definition
-HttpResource = require '../bloops/resource'
-MongooseAdapter = require '../bloops/mongoose_adapter'
+ExpressHttpResource = require '../bloops/adapters/express_resource'
+MongooseAdapter = require '../bloops/adapters/mongoose_adapter'
 Vote = require('../db').models.vote
 
-class VoteResource extends HttpResource
+VoteResource = new ExpressHttpResource
   resourceName: 'votes'
-  additionalEndpoints: null
-  adapter: new MongooseAdapter
+  adapter: new MongooseAdapter(Vote)
   model: Vote
 
 module.exports = VoteResource
