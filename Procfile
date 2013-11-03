@@ -1,3 +1,4 @@
 web:     node web.js
-debug:   coffee --nodejs --debug web.coffee
-debug1:  coffee --nodejs --debug-brk web.coffee
+dev:   nodemon --debug web.coffee
+debug:   ./node_modules/.bin/coffeem --nodejs --debug web.coffee
+debug1:  ./node_modules/.bin/coffeem --nodejs --debug-brk web.coffee

@@ -1,13 +1,14 @@
 # Main web server definition
 db = require('./db').connect()
 db.connection.on 'connected', ->
-  InternalApi = require('./api')
-  api = new InternalApi(db)
+  try
+    # Initialize routing for REST API
+    http = require './http2'
+    http.init(process.env.PORT or 3000)
 
-  # Initialize routing for REST API
-  http = require './http'
-  http.init(api, process.env.PORT or 3000)
-
-  # Initialize realtime events support
-  realtime = require './realtime'
-  realtime.init()
+    # Initialize realtime events support
+    realtime = require './realtime'
+    realtime.init()
+  catch e
+    console.error(e.stack)
+    process.exit(1)
