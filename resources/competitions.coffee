@@ -1,6 +1,4 @@
 {models, Resource, filters} = require '../resource_helper'
-FromJson = filters.FromJson
-FromUrlParams = filters.FromUrlParams
 
 class CompetitionResource extends Resource
   resourceName: 'competitions'
@@ -8,7 +6,7 @@ class CompetitionResource extends Resource
 
   getEndpoints: -> [
     getByOwner
-    'index'
+    index
     'show'
     'update'
     'destroy'
@@ -22,9 +20,29 @@ class CompetitionResource extends Resource
 getByOwner =
   route: '/by-owner/:ownerId'
   method: 'GET'
-  filters: [FromUrlParams]
+  filters: [filters.FromUrlParams, filters.FromQueryParams]
   emptyResult: []
   handler: ->
-    @api.find(owner_id: @params.ownerId)
+    ownerId = @params.ownerId
+    showClosed = @params.showClosed
+    query =
+      owner_id: ownerId
+    unless showClosed == 'true' or showClosed == true
+      query.open = true
+    console.log "[HTTP] request to list competitions by owner (ownerId=#{ownerId}, showClosed=#{showClosed})"
+    @api.find(query)
+
+index =
+  route: '/'
+  method: 'GET'
+  filters: [filters.FromUrlParams, filters.FromQueryParams]
+  emptyResult: []
+  handler: ->
+    showClosed = @params.showClosed
+    query = {}
+    unless showClosed == 'true' or showClosed == true
+      query.open = true
+    console.log "[HTTP] request to list competitions (showClosed=#{showClosed})"
+    @api.find(query)
 
 module.exports = new CompetitionResource
