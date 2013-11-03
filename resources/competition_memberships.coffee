@@ -1,10 +1,7 @@
-ExpressHttpResource = require '../bloops/adapters/express_resource'
-MongooseAdapter = require '../bloops/adapters/mongoose_adapter'
-Membership = require('../db').models.competition_membership
+{models, Resource, filters} = require '../resource_helper'
 
-MembershipResource = new ExpressHttpResource
+MembershipResource = new Resource
   resourceName: 'memberships'
-  adapter: new MongooseAdapter(Membership)
-  model: Membership
+  model: models.competition_membership
 
 module.exports = MembershipResource

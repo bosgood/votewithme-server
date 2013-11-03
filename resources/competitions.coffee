@@ -1,10 +1,30 @@
-ExpressHttpResource = require '../bloops/adapters/express_resource'
-MongooseAdapter = require '../bloops/adapters/mongoose_adapter'
-Competition = require('../db').models.competition
+{models, Resource, filters} = require '../resource_helper'
+FromJson = filters.FromJson
+FromUrlParams = filters.FromUrlParams
 
-CompetitionResource = new ExpressHttpResource
+class CompetitionResource extends Resource
   resourceName: 'competitions'
-  adapter: new MongooseAdapter(Competition)
-  model: Competition
+  model: models.competition
 
-module.exports = CompetitionResource
+  getEndpoints: -> [
+    getByOwner
+    'index'
+    'show'
+    'update'
+    'destroy'
+    'create'
+    'patch'
+  ]
+
+#
+# Custom endpoints defined here
+#
+getByOwner =
+  route: '/by-owner'
+  method: 'GET'
+  filters: [FromUrlParams]
+  emptyResult: []
+  handler: ->
+    @models
+
+module.exports = new CompetitionResource

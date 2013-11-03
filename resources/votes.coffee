@@ -1,10 +1,7 @@
-ExpressHttpResource = require '../bloops/adapters/express_resource'
-MongooseAdapter = require '../bloops/adapters/mongoose_adapter'
-Vote = require('../db').models.vote
+{models, Resource, filters} = require '../resource_helper'
 
-VoteResource = new ExpressHttpResource
+VoteResource = new Resource
   resourceName: 'votes'
-  adapter: new MongooseAdapter(Vote)
-  model: Vote
+  model: models.vote
 
 module.exports = VoteResource

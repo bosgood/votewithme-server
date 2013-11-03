@@ -1,10 +1,7 @@
-ExpressHttpResource = require '../bloops/adapters/express_resource'
-MongooseAdapter = require '../bloops/adapters/mongoose_adapter'
-User = require('../db').models.user
+{models, Resource, filters} = require '../resource_helper'
 
-UserResource = new ExpressHttpResource
+UserResource = new Resource
   resourceName: 'users'
-  adapter: new MongooseAdapter(User)
-  model: User
+  model: models.user
 
 module.exports = UserResource

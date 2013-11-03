@@ -1,10 +1,7 @@
-ExpressHttpResource = require '../bloops/adapters/express_resource'
-MongooseAdapter = require '../bloops/adapters/mongoose_adapter'
-Candidate = require('../db').models.competition_candidate
+{models, Resource, filters} = require '../resource_helper'
 
-CandidateResource = new ExpressHttpResource
+CandidateResource = new Resource
   resourceName: 'candidates'
-  adapter: new MongooseAdapter(Candidate)
-  model: Candidate
+  model: models.competition_candidate
 
 module.exports = CandidateResource
