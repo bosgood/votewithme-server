@@ -20,11 +20,11 @@ class CompetitionResource extends Resource
 # Custom endpoints defined here
 #
 getByOwner =
-  route: '/by-owner'
+  route: '/by-owner/:ownerId'
   method: 'GET'
   filters: [FromUrlParams]
   emptyResult: []
   handler: ->
-    @models
+    @api.find(owner_id: @params.ownerId)
 
 module.exports = new CompetitionResource
