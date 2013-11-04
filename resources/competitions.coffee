@@ -1,5 +1,6 @@
 Q = require 'q'
 {models, Resource, filters} = require '../resource_helper'
+errors = require '../bloops/errors'
 
 class CompetitionResource extends Resource
   resourceName: 'competitions'
@@ -11,11 +12,12 @@ class CompetitionResource extends Resource
     getByMembership
     end
     restart
+    start
     'show'
     'update'
     'destroy'
-    'create'
-    'patch'
+    # 'create'
+    # 'patch'
   ]
 
 #
@@ -96,5 +98,22 @@ restart =
       { _id: competitionId },
       { open: true }
     )
+
+start =
+  route: '/'
+  filters: [filters.FromJson]
+  method: 'PUT'
+  handler: ->
+    ownerId = @params.ownerId
+    name = @params.name
+    unless ownerId? and name?
+      throw new errors.UserError('must provide name and ownerId')
+
+    @context.statusCode = 201
+    @api.create
+      owner_id: ownerId
+      name: name
+      open: true
+      type: 'multi'
 
 module.exports = new CompetitionResource
