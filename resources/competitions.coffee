@@ -1,6 +1,6 @@
 Q = require 'q'
 {models, Resource, filters} = require '../resource_helper'
-errors = require '../bloops/errors'
+errors = require 'bloops/errors'
 
 class CompetitionResource extends Resource
   resourceName: 'competitions'

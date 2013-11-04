@@ -3,7 +3,7 @@ db = require('./db').connect()
 db.connection.on 'connected', ->
   try
     # Initialize routing for REST API
-    http = require './http2'
+    http = require './http'
     http.init(process.env.PORT or 3000)
 
     # Initialize realtime events support
