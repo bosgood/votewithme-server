@@ -103,7 +103,7 @@ restart =
 start =
   route: '/'
   filters: [filters.FromJson]
-  method: 'PUT'
+  method: 'POST'
   handler: ->
     ownerId = @params.ownerId
     name = @params.name
