@@ -65,11 +65,12 @@ getByMembership =
         console.log "[HTTP] found no competition memberships (userId=#{userId})"
         return []
 
-      membershipIds = memberships.map((membership) ->
+      ownerOrMatchesMembership = memberships.map((membership) ->
         _id: membership.competition_id
       )
-      anyCompetition = { $or: membershipIds }
-      dbQuery = @model.find(anyCompetition)
+      ownerOrMatchesMembership.push({ owner_id: userId })
+      condition = { $or: ownerOrMatchesMembership }
+      dbQuery = @model.find(condition)
       unless showClosed
         dbQuery.where('open').equals(true)
       Q(dbQuery.exec())
