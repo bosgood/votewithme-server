@@ -15,7 +15,7 @@ class Resource extends BaseResource
     # Enable a pre-flight OPTIONS request
     app.options(route, cors())
 
-  getMiddleware: (route) ->
+  getMiddleware: ->
     [cors()]
 
 module.exports = {Resource, models, filters}
