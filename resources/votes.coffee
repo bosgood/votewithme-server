@@ -16,6 +16,7 @@ VoteResource = new Resource
     'index'
     create
     getByCompetition
+    getByUser
   ]
 
 _baseCreate = crud.create.handler
@@ -47,5 +48,16 @@ getByCompetition =
       throw new errors.UserError('must provide competitionId')
 
     @api.list competition_id: competitionId
+
+getByUser =
+  route: '/by-user/:userId'
+  method: 'GET'
+  filters: [filters.FromUrlParams]
+  handler: ->
+    userId = @params.userId
+    unless userId
+      throw new errors.UserError('must provide userId')
+
+    @api.list user_id: userId
 
 module.exports = VoteResource
