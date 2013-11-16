@@ -25,13 +25,15 @@ create =
   filters: [filters.FromJson]
   handler: ->
     @params.quantity ?= 1
-    unless @params.choiceId? and @params.competitionId?
-      throw new errors.UserError('must provide choiceId and competitionId')
+    unless @params.choiceId? and @params.competitionId? and @params.userId?
+      throw new errors.UserError('must provide choiceId, competitionId and userId')
 
     @params.competition_id = @params.competitionId
     delete @params.competitionId
     @params.choice_id = @params.choiceId
     delete @params.choiceId
+    @params.user_id = @params.userId
+    delete @params.userId
 
     _baseCreate.call(@)
 
