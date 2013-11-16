@@ -16,6 +16,6 @@ class Resource extends BaseResource
     app.options(route, cors())
 
   getMiddleware: ->
-    [cors()]
+    [cors()].concat(super)
 
 module.exports = {Resource, models, filters}
