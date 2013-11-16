@@ -8,6 +8,7 @@ voteSchema = new Schema
   user_id: ObjectId
   competition_id: ObjectId
   choice_id: ObjectId
+  quantity: Number
 
 Vote = mongoose.model('Vote', voteSchema)
 module.exports = Vote
