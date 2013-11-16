@@ -1,7 +1,8 @@
 {models, Resource, filters} = require '../resource_helper'
 
 CandidateResource = new Resource
-  resourceName: 'candidates'
+  resourceNameMany: 'candidates'
+  resourceNameOne: 'candidate'
   model: models.competition_candidate
 
 module.exports = CandidateResource

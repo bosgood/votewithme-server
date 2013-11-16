@@ -3,7 +3,8 @@ Q = require 'q'
 errors = require 'bloops/errors'
 
 class CompetitionResource extends Resource
-  resourceName: 'competitions'
+  resourceNameMany: 'competitions'
+  resourceNameOne: 'competition'
   model: models.competition
 
   getEndpoints: -> [

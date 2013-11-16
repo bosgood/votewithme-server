@@ -1,7 +1,8 @@
 {models, Resource, filters} = require '../resource_helper'
 
 ChoiceResource = new Resource
-  resourceName: 'choices'
+  resourceNameMany: 'choices'
+  resourceNameOne: 'choice'
   model: models.choice
 
 module.exports = ChoiceResource
