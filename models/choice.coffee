@@ -6,6 +6,7 @@ ObjectId = mongoose.Schema.Types.ObjectId
 
 choiceSchema = new Schema
   competition_id: ObjectId
+  name: String
 
 Choice = mongoose.model('Choice', choiceSchema)
 module.exports = Choice
