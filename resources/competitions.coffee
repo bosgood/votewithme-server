@@ -107,10 +107,10 @@ start =
   filters: [filters.FromJson]
   method: 'POST'
   handler: ->
-    ownerId = @params.ownerId
+    ownerId = @params.owner_id
     name = @params.name
     unless ownerId? and name?
-      throw new errors.UserError('must provide name and ownerId')
+      throw new errors.UserError('must provide name and owner_id')
 
     @context.statusCode = 201
     @api.create
