@@ -16,7 +16,7 @@ init = (port) ->
   resources = getResources()
   console.log "[HTTP] found #{resources.length} resource types"
   for resource in resources
-    console.log "[HTTP] initializing resource: #{resource.resourceName}"
+    console.log "[HTTP] initializing resource: #{resource.resourceNameMany}"
     resource.initialize(app)
 
   app.listen(port)
