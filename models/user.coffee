@@ -1,9 +1,9 @@
 mongoose = require 'mongoose'
-Schema = mongoose.Schema
+ItemSchema = require './schema'
 mongo = mongoose.mongo
 ObjectID = mongo.ObjectID
 
-userSchema = new Schema
+userSchema = new ItemSchema
   name: String
 
 User = mongoose.model('User', userSchema)

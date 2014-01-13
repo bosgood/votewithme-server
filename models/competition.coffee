@@ -1,10 +1,10 @@
 # Represents a vote, ongoing or finished, between participants
 mongoose = require 'mongoose'
-Schema = mongoose.Schema
+ItemSchema = require './schema'
 mongo = mongoose.mongo
 ObjectId = mongoose.Schema.Types.ObjectId
 
-competitionSchema = new Schema
+competitionSchema = new ItemSchema
   name: String
   owner_id: ObjectId  # fk->db.users
   open: Boolean

@@ -1,10 +1,10 @@
 # Represents an option that a user voted for
 mongoose = require 'mongoose'
-Schema = mongoose.Schema
+ItemSchema = require './schema'
 mongo = mongoose.mongo
 ObjectId = mongoose.Schema.Types.ObjectId
 
-voteSchema = new Schema
+voteSchema = new ItemSchema
   user_id: ObjectId
   competition_id: ObjectId
   choice_id: ObjectId
