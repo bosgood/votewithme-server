@@ -26,8 +26,8 @@ create =
   method: ['POST', 'PUT']
   filters: [filters.FromJson]
   handler: ->
-    unless @params.name? and @params.competition_id?
-      throw new errors.UserError('must provide name and competition_id')
+    unless @params.name? and @params.competitionId?
+      throw new errors.UserError('must provide name and competitionId')
     _baseCreate.call(@)
 
 getByCompetition =
@@ -35,9 +35,9 @@ getByCompetition =
   method: 'GET'
   filters: [filters.FromUrlParams]
   handler: ->
-    competitionId = @params.competition_id
+    competitionId = @params.competitionId
     unless competitionId
-      throw new errors.UserError('must provide competition_id')
+      throw new errors.UserError('must provide competitionId')
 
     @api.list competition_id: competitionId
 
