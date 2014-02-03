@@ -51,11 +51,11 @@ index =
     @api.list(query)
 
 getByMembership =
-  route: '/by-membership/:userId'
+  route: '/by-membership/:user_id'
   method: 'GET'
   filters: [filters.FromUrlParams, filters.FromQueryParams]
   handler: ->
-    userId = @params.userId
+    userId = @params.user_id
     showClosed = @params.showClosed == 'true' or @params.showClosed == true
     competitionsQuery = {}
     membershipApi = @createApi(@adapter, @models.competition_membership)
