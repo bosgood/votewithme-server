@@ -26,29 +26,29 @@ create =
   filters: [filters.FromJson]
   handler: ->
     @params.quantity ?= 1
-    unless @params.choiceId? and @params.competitionId? and @params.userId?
-      throw new errors.UserError('must provide choiceId, competitionId and userId')
+    unless @params.choice_id? and @params.competition_id? and @params.user_id?
+      throw new errors.UserError('must provide choice_id, competition_id and user_id')
     _baseCreate.call(@)
 
 getByCompetition =
-  route: '/by-competition/:competitionId'
+  route: '/by-competition/:competition_id'
   method: 'GET'
   filters: [filters.FromUrlParams]
   handler: ->
-    competitionId = @params.competitionId
+    competitionId = @params.competition_id
     unless competitionId
-      throw new errors.UserError('must provide competitionId')
+      throw new errors.UserError('must provide competition_id')
 
     @api.list competition_id: competitionId
 
 getByUser =
-  route: '/by-user/:userId'
+  route: '/by-user/:user_id'
   method: 'GET'
   filters: [filters.FromUrlParams]
   handler: ->
-    userId = @params.userId
+    userId = @params.user_id
     unless userId
-      throw new errors.UserError('must provide userId')
+      throw new errors.UserError('must provide user_id')
 
     @api.list user_id: userId
 
